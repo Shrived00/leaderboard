@@ -10,40 +10,54 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useUserStore } from '../hooks/userStore';
 
-
-
-
 const defaultTheme = createTheme();
 
-export default function SignIn() {
-
+const SignIn: React.FC = () => {
     const { user, setUser } = useUserStore();
 
-
-    const handleSubmit = (event: any) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
 
-        const email = data.get('email');
-        const password = data.get('password');
+        const email = data.get('email') as string;
+        const password = data.get('password') as string;
 
         if (email === 'admin@gmail.com' && password === '1234') {
             console.log('Logged in');
+
+            // Set user as logged in
             setUser(true);
 
+            // Set expiration time for one day
+            const expirationTime = new Date();
+            expirationTime.setDate(expirationTime.getDate() + 1);
 
-
-
+            // Save user login state and expiration time in local storage
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('loginExpiration', expirationTime.toISOString());
         } else {
             console.log('Incorrect email or password');
             setUser(false);
         }
     };
 
+    React.useEffect(() => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        const loginExpiration = localStorage.getItem('loginExpiration');
+
+        if (isLoggedIn === 'true' && loginExpiration) {
+            const expirationTime = new Date(loginExpiration);
+            if (expirationTime > new Date()) {
+                // User is still logged in
+                setUser(true);
+            } else {
+                // User's login has expired, log them out
+                setUser(false);
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('loginExpiration');
+            }
+        }
+    }, []);
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -84,7 +98,6 @@ export default function SignIn() {
                             id="password"
                             autoComplete="current-password"
                         />
-
                         <Button
                             type="submit"
                             fullWidth
@@ -93,10 +106,11 @@ export default function SignIn() {
                         >
                             Sign In
                         </Button>
-
                     </Box>
                 </Box>
             </Container>
         </ThemeProvider>
     );
-}
+};
+
+export default SignIn;
