@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
     "@mui/icons-material": "^5.15.14",
     "@mui/x-charts": "^7.0.0",
     "@prisma/client": "^5.11.0",
