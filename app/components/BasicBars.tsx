@@ -25,23 +25,23 @@ export default function BasicBars() {
     }, [setDataName, setDataValue]);
 
 
-    const getChartWidth = () => {
-        if (window.innerWidth >= 1200) {
-            return window.innerWidth * 0.8;
-        } else if (window.innerWidth >= 600) {
-            return window.innerWidth * 0.9;
-        } else {
-            return window.innerWidth;
-        }
-    };
+    // const getChartWidth = () => {
+    //     if (window.innerWidth >= 1200) {
+    //         return window.innerWidth * 0.8;
+    //     } else if (window.innerWidth >= 600) {
+    //         return window.innerWidth * 0.9;
+    //     } else {
+    //         return window.innerWidth;
+    //     }
+    // };
 
     return (
-        <div className=" flex justify-center items-center ">
+        <div className=" flex justify-center items-center  chart-container px-[10rem]">
             <BarChart
                 colors={['#8884d8']}
                 xAxis={[{ scaleType: 'band', data: dataname }]}
                 series={[{ data: datavalue }]}
-                width={getChartWidth()}
+                // width={getChartWidth()}
                 height={500}
             />
         </div>
