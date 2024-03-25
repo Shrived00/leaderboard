@@ -19,12 +19,19 @@ const Editor = () => {
     };
 
     const decrementValue = (index: number) => {
-        const newData = [...updatedData];
-        if (newData[index] > 0) {
-            newData[index]--;
-            setUpdatedData(newData);
+        if (index >= 0 && index < updatedData.length) {
+            const newData = [...updatedData];
+            // Use optional chaining (?.) and nullish coalescing operator (??)
+            // to ensure newData[index] is accessed safely and provide a default value (0) if it's undefined
+            const currentValue = newData[index];
+            if (currentValue !== undefined && currentValue > 0) {
+                newData[index] = currentValue - 1;
+                setUpdatedData(newData);
+            }
         }
     };
+
+
 
 
     const onHandleUpdate = async () => {
