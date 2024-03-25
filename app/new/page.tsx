@@ -14,6 +14,7 @@ import axios from 'axios';
 import useDataStore from '../hooks/dataStore';
 import { useRouter } from 'next/navigation';
 import { useUserStore } from '../hooks/userStore';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface Element {
     name: string;
@@ -90,29 +91,33 @@ export default function TransitionGroupExample() {
 
     const router = useRouter();
     const onHandleCreate = async () => {
-
-
         const names = elements.map(element => element.name);
         const values = elements.map(element => element.value);
 
-
-
-
-        try {
-            setIsLoading(true);
-            const response = await axios.post('/api/createnew', { names, values });
-
-            setIsLoading(false);
-            router.push('/');
-        } catch (error) {
-            console.error('Error creating data:', error);
+        if (names.length >= 1 && values.length >= 1) {
+            try {
+                setIsLoading(true);
+                const response = await axios.post('/api/createnew', { names, values });
+                router.push('/');
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error creating data:', error);
+            }
+        } else {
+            toast.error('Add at least on element!');
+            console.log("There should be at least three elements in both names and values.");
         }
     }
 
 
 
+
     return (
         <div className='p-3 flex border flex-col justify-center items-center '>
+            <Toaster
+                position="top-center"
+                reverseOrder={false}
+            />
             <div className="flex  justify-center items-center gap-3">
                 <TextField
                     label="Label"
