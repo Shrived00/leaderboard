@@ -4,7 +4,7 @@ import useDataStore from '../hooks/dataStore';
 import axios from 'axios';
 
 export default function BasicBars() {
-    const { datavalue, dataname, setDataValue, setDataName } = useDataStore();
+    const { datavalue, dataname, setDataValue, setDataName, isLoading, setIsLoading } = useDataStore();
 
 
     React.useEffect(() => {
@@ -36,12 +36,14 @@ export default function BasicBars() {
     };
 
     return (
-        <BarChart
-            colors={['#8884d8']}
-            xAxis={[{ scaleType: 'band', data: dataname }]}
-            series={[{ data: datavalue }]}
-            width={getChartWidth()}
-            height={500}
-        />
+        <div className=" flex justify-center items-center ">
+            <BarChart
+                colors={['#8884d8']}
+                xAxis={[{ scaleType: 'band', data: dataname }]}
+                series={[{ data: datavalue }]}
+                width={getChartWidth()}
+                height={500}
+            />
+        </div>
     );
 }

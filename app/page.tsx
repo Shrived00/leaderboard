@@ -2,20 +2,26 @@
 import Image from "next/image";
 import BasicBars from "./components/BasicBars";
 import TemporaryDrawer from "./components/Drawer";
+import useDataStore from "./hooks/dataStore";
+import Loader from "./components/Loader";
+import StackedLineChartIcon from '@mui/icons-material/StackedLineChart';
+import Link from "next/link";
 
 export default function Home() {
+  const { isLoading, setIsLoading } = useDataStore();
+
   return (
     <main className="" >
 
-      <div className="relative p-4">
-        <div className="absolute top-0 right-0">
-          <TemporaryDrawer />
-        </div>
-      </div>
-      <div className="flex min-h-screen flex-col items-center justify-between  ">
-        <BasicBars />
+      {isLoading ? <Loader />
 
-      </div>
+        : <>
+
+          <div className=" ">
+            <BasicBars />
+
+          </div>
+        </>}
 
     </main>
   );

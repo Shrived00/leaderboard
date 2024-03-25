@@ -18,9 +18,9 @@ export default function TemporaryDrawer() {
     };
 
     const DrawerList = (
-        <Box sx={{ width: 450 }} role="presentation" >
+        <Box sx={{ width: 350 }} role="presentation" >
 
-            {user ? <Login /> : < Editor />}
+            {user ? <Editor /> : < Login />}
 
         </Box>
     );

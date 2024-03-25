@@ -11,6 +11,9 @@ import TextField from '@mui/material/TextField';
 import { TransitionGroup } from 'react-transition-group';
 import Divider from '@mui/material/Divider';
 import axios from 'axios';
+import useDataStore from '../hooks/dataStore';
+import { useRouter } from 'next/navigation';
+import { useUserStore } from '../hooks/userStore';
 
 interface Element {
     name: string;
@@ -83,31 +86,43 @@ export default function TransitionGroupExample() {
         setElements((prev) => prev.filter((e) => e !== element));
     };
 
+    const { isLoading, setIsLoading } = useDataStore();
+
+    const router = useRouter();
     const onHandleCreate = async () => {
 
 
         const names = elements.map(element => element.name);
         const values = elements.map(element => element.value);
 
+
+
+
         try {
+            setIsLoading(true);
             const response = await axios.post('/api/createnew', { names, values });
+
+            setIsLoading(false);
+            router.push('/');
         } catch (error) {
             console.error('Error creating data:', error);
         }
     }
 
+
+
     return (
-        <div className='m-5 border p-5 rounded'>
-            <div className="flex justify-center items-center gap-5">
+        <div className='p-3 flex border flex-col justify-center items-center '>
+            <div className="flex  justify-center items-center gap-3">
                 <TextField
-                    label="Enter Element Name"
+                    label="Label"
                     value={inputName}
                     onChange={handleNameInputChange}
                     variant="outlined"
                     inputRef={nameInputRef}
                 />
                 <TextField
-                    label="Enter Element Value"
+                    label="Value"
                     value={inputValue}
                     onChange={handleValueInputChange}
                     onKeyDown={handleKeyDown}
@@ -119,7 +134,7 @@ export default function TransitionGroupExample() {
                     onClick={handleAddElement}
                     ref={addButtonRef}
                 >
-                    Add to list
+                    Add
                 </Button>
             </div>
             <List sx={{ mt: 1 }}>
@@ -131,6 +146,6 @@ export default function TransitionGroupExample() {
             </List>
 
             <Button className="border rounded-sm" onClick={onHandleCreate}>Create</Button>
-        </div>
+        </div >
     );
 }
