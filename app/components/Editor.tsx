@@ -5,9 +5,12 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useUserStore } from '../hooks/userStore';
 
 const Editor = () => {
     const router = useRouter();
+
+    const { user, setUser } = useUserStore();
 
     const { datavalue, dataname, setDataValue, setDataName, isLoading, setIsLoading } = useDataStore();
     const [updatedData, setUpdatedData] = useState(datavalue.slice());
@@ -70,7 +73,17 @@ const Editor = () => {
             console.error('Error loading previous data:', error);
         }
     };
+    const onClickLogout = () => {
+        // Remove user login state and expiration time from local storage
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('loginExpiration');
 
+        // Set user as not logged in
+        setUser(false);
+
+        // Redirect to the home page or any other desired page
+        router.push('/');
+    };
 
     return (
         <div style={{
@@ -111,7 +124,7 @@ const Editor = () => {
 
 
             </div >
-            <div className="  flex justify-center ">
+            <div className="  flex justify-between px-4 ">
                 <button className=' py-1 px-2' onClick={onHandleUpdate}
                     style={{
                         backgroundColor: '#3b82f680', color: 'white', borderRadius: '5px',
@@ -120,6 +133,14 @@ const Editor = () => {
 
                     }}
                 >Update</button>
+                <button className=' py-1 px-2' onClick={onClickLogout}
+                    style={{
+                        backgroundColor: '#b23b3b', color: 'white', borderRadius: '5px',
+
+
+
+                    }}
+                >Logout</button>
             </div>
         </div >
     );

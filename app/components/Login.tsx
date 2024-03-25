@@ -22,7 +22,7 @@ const SignIn: React.FC = () => {
         const email = data.get('email') as string;
         const password = data.get('password') as string;
 
-        if (email === 'admin@gmail.com' && password === '1234') {
+        if (email === 'admin@gmail.com' && password === '1q2w3e4r') {
             console.log('Logged in');
 
             // Set user as logged in
@@ -83,7 +83,7 @@ const SignIn: React.FC = () => {
                             required
                             fullWidth
                             id="email"
-                            label="Email Address"
+                            label="admin@gmail.com"
                             name="email"
                             autoComplete="email"
                             autoFocus
@@ -93,7 +93,7 @@ const SignIn: React.FC = () => {
                             required
                             fullWidth
                             name="password"
-                            label="Password"
+                            label="Password-1q2w3e4r"
                             type="password"
                             id="password"
                             autoComplete="current-password"
