@@ -26,6 +26,7 @@ export default function RootLayout({
     <html lang="en">
 
       <body className={inter.className}>
+        <meta name="google-adsense-account" content="ca-pub-4636465706335634"></meta>
 
         <AppRouterCacheProvider>
 
